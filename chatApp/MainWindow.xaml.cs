@@ -27,17 +27,50 @@ namespace chatApp
 
         private void Button_Click(object sender, RoutedEventArgs e) //Group
         {
-            
+            if (canvas_group.Visibility == Visibility.Visible)
+            {
+                canvas_group.Visibility = Visibility.Hidden;
+                motd_group.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                canvas_group.Visibility = Visibility.Visible;
+                canvas_chat.Visibility = Visibility.Hidden;
+                canvas_userlist.Visibility = Visibility.Hidden;
+                motd_group.Visibility = Visibility.Hidden;
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e) //Chat
         {
-
+            if (canvas_chat.Visibility == Visibility.Visible)
+            {
+                canvas_chat.Visibility = Visibility.Hidden;
+                motd_group.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                canvas_group.Visibility = Visibility.Hidden;
+                canvas_chat.Visibility = Visibility.Visible;
+                canvas_userlist.Visibility = Visibility.Hidden;
+                motd_group.Visibility = Visibility.Hidden;
+            }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e) //Userlist
         {
-
+            if (canvas_userlist.Visibility == Visibility.Visible)
+            {
+                canvas_userlist.Visibility = Visibility.Hidden;
+                motd_group.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                canvas_group.Visibility = Visibility.Hidden;
+                canvas_chat.Visibility = Visibility.Hidden;
+                canvas_userlist.Visibility = Visibility.Visible;
+                motd_group.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
