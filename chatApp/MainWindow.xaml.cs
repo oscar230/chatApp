@@ -62,7 +62,7 @@ namespace chatApp
             if (canvas_userlist.Visibility == Visibility.Visible)
             {
                 canvas_userlist.Visibility = Visibility.Hidden;
-                motd_group.Visibility = Visibility.Hidden;
+                motd_group.Visibility = Visibility.Visible;
             }
             else
             {
