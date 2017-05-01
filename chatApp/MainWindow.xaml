@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:chatApp"
         mc:Ignorable="d"
-        Title="ChatApp" Height="501.4" Width="426.4" BorderThickness="0" WindowStartupLocation="CenterScreen">
+        Title="ChatApp" Height="501.4" Width="421.4" BorderThickness="0" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <!-- Menu buttons -->
         <Button Content="Group" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click"/>
