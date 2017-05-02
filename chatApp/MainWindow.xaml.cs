@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
 
 namespace chatApp
 {
@@ -20,6 +21,12 @@ namespace chatApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        SqlConnection myConnection = new SqlConnection("user id=root;" +
+                                       "password=;" +
+                                        "server=localhost;" +
+                                       "Trusted_Connection=yes;" +
+                                       "database=database; " +
+                                       "connection timeout=30");
         public MainWindow()
         {
             InitializeComponent();
