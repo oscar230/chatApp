@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Data.SqlClient;
+using System.Data.SqlClient; //SQL server
+using System.Diagnostics; //Debug
 
 namespace chatApp
 {
@@ -21,12 +22,15 @@ namespace chatApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        SqlConnection myConnection = new SqlConnection("user id=root;" +
-                                       "password=;" +
-                                        "server=localhost;" +
-                                       "Trusted_Connection=yes;" +
-                                       "database=database; " +
-                                       "connection timeout=30");
+        SqlConnection dbh = new SqlConnection(
+                                                       "user id=root;" +
+                                                       "password=;" +
+                                                       "server=localhost;" +
+                                                       "Trusted_Connection=yes;" +
+                                                       "database=chatapp; " +
+                                                       "connection timeout=10"
+                                                       );
+
         public MainWindow()
         {
             InitializeComponent();
@@ -77,6 +81,19 @@ namespace chatApp
                 canvas_chat.Visibility = Visibility.Hidden;
                 canvas_userlist.Visibility = Visibility.Visible;
                 motd_group.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e) //Connect to server
+        {
+            try
+            {
+                dbh.Open();
+            }
+            catch (Exception exeption)
+            {
+                connectionStatus.Content = exeption.ToString();
+                Debug.WriteLine(exeption.ToString());
             }
         }
     }

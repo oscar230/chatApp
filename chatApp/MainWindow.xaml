@@ -15,6 +15,8 @@
         <Canvas x:Name="motd_group" Visibility="Visible" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
             <Label Content="Welcome to chatapp" HorizontalAlignment="Left" Margin="89,150,0,0" VerticalAlignment="Top" FontSize="24"/>
             <Label Content="Developed by Oscar Andersson" HorizontalAlignment="Left" Margin="89,197,0,0" VerticalAlignment="Top"/>
+            <Button Content="Connect" Canvas.Left="89" Canvas.Top="228" Width="75" Click="Button_Click_3"/>
+            <Label x:Name="connectionStatus" Content="" Canvas.Left="169" Canvas.Top="225" Width="96" Height="22"/>
         </Canvas>
         <!-- Group canvas -->
         <Canvas x:Name="canvas_group" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
@@ -54,5 +56,5 @@
             </RichTextBox>
             <Label Content="In a chat with the group: " Canvas.Left="10" Canvas.Top="10" Width="374"/>
         </Canvas>
-        </Grid>
+    </Grid>
 </Window>
