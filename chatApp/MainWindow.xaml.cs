@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Data.SqlClient; //SQL server
+using MySql.Data.MySqlClient; //MySql
 using System.Diagnostics; //Debug
 
 namespace chatApp
@@ -22,18 +22,18 @@ namespace chatApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        SqlConnection dbh = new SqlConnection(
-                                                       "user id=root;" +
-                                                       "password=;" +
-                                                       "server=localhost;" +
-                                                       "Trusted_Connection=yes;" +
-                                                       "database=chatapp; " +
-                                                       "connection timeout=10"
-                                                       );
 
         public MainWindow()
         {
+            //Builds form
             InitializeComponent();
+            //Creates connection with MySql server
+            MySqlConnection dbh = new MySqlConnection(@"
+                    server=localhost;
+                    userid=root;
+                    password=mm54rsa;
+                    database=mydb
+            ");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) //Group
@@ -88,9 +88,9 @@ namespace chatApp
         {
             try
             {
-                dbh.Open();
+                dbh.Open(); //Opens a cennection with the MySQL server
             }
-            catch (Exception exeption)
+            catch (MySqlException exeption)
             {
                 connectionStatus.Content = exeption.ToString();
                 Debug.WriteLine(exeption.ToString());
