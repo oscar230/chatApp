@@ -22,18 +22,18 @@ namespace chatApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Creates connection with MySql server
+        MySqlConnection dbh = new MySqlConnection(@"
+                    server=localhost;
+                    userid=root;
+                    password=mm54rsa;
+                    database=chatapp;
+            ");
 
         public MainWindow()
         {
             //Builds form
             InitializeComponent();
-            //Creates connection with MySql server
-            MySqlConnection dbh = new MySqlConnection(@"
-                    server=localhost;
-                    userid=root;
-                    password=mm54rsa;
-                    database=mydb
-            ");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) //Group
@@ -86,14 +86,33 @@ namespace chatApp
 
         private void Button_Click_3(object sender, RoutedEventArgs e) //Connect to server
         {
+            //Try to open a connection with the server
             try
             {
                 dbh.Open(); //Opens a cennection with the MySQL server
+                connectionStatus.Content = "Connected"; //Shows a connected messege.
+                connectionButton.Visibility = Visibility.Hidden; //Removes the button.
+                login.Visibility = Visibility.Visible; //Shows the login canvas.
             }
             catch (MySqlException exeption)
             {
+                //If the connection fails, an error messege is shown and the connection button is visible again.
                 connectionStatus.Content = exeption.ToString();
-                Debug.WriteLine(exeption.ToString());
+                connectionButton.Visibility = Visibility.Visible;
+                Debug.WriteLine(exeption.ToString()); //Debug
+            }
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e) //Login
+        {
+            try
+            {
+                
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
