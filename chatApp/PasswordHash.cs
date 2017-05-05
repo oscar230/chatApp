@@ -10,10 +10,6 @@ namespace chatApp
 {
     class PasswordHash
     {
-        public PasswordHash()
-        {
-
-        }
 
         private string HashItteration(string input)
         {

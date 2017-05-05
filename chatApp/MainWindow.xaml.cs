@@ -24,16 +24,28 @@ namespace chatApp
     {
         //Creates connection with MySql server
         MySqlConnection dbh = new MySqlConnection(@"
-                    server=localhost;
-                    userid=root;
+                    server=oscarandersson.tk;
+                    userid=oscarander_chatapp;
                     password=mm54rsa;
-                    database=chatapp;
+                    database=oscarander_chatapp;
             ");
 
         public MainWindow()
         {
             //Builds form
             InitializeComponent();
+
+            //Try to open a connection with the server
+            try
+            {
+                dbh.Open(); //Opens a cennection with the MySQL server
+                login.Visibility = Visibility.Visible; //Shows the login canvas.
+            }
+            catch (MySqlException exeption)
+            {
+                //If the connection fails, an error messege is shown and the connection button is visible again.
+                Debug.WriteLine(exeption.ToString()); //Debug
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) //Group
@@ -84,35 +96,21 @@ namespace chatApp
             }
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e) //Connect to server
-        {
-            //Try to open a connection with the server
-            try
-            {
-                dbh.Open(); //Opens a cennection with the MySQL server
-                connectionStatus.Content = "Connected"; //Shows a connected messege.
-                connectionButton.Visibility = Visibility.Hidden; //Removes the button.
-                login.Visibility = Visibility.Visible; //Shows the login canvas.
-            }
-            catch (MySqlException exeption)
-            {
-                //If the connection fails, an error messege is shown and the connection button is visible again.
-                connectionStatus.Content = exeption.ToString();
-                connectionButton.Visibility = Visibility.Visible;
-                Debug.WriteLine(exeption.ToString()); //Debug
-            }
-        }
-
         private void loginButton_Click(object sender, RoutedEventArgs e) //Login
         {
-            try
+            //Creates the account manager object
+            AccountManager account = new AccountManager(dbh);
+            //Logs the user in.
+            if (account.Login(loginUsername.ToString(), loginPassword.ToString()) == true)
             {
-                
+                //Login sucessfull
+                login.Visibility = Visibility.Hidden;
             }
-            catch (Exception)
+            else
             {
-
-                throw;
+                //Login failed. Reset login fields.
+                loginUsername = null;
+                loginPassword = null;
             }
         }
     }

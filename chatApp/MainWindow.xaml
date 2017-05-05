@@ -13,10 +13,8 @@
         <Button Content="Users" HorizontalAlignment="Left" Margin="276,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click_2"/>
         <!-- motd canvas -->
         <Canvas x:Name="motd_group" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
-            <Label Content="Welcome to chatapp" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" Canvas.Left="79" Canvas.Top="53"/>
-            <Label Content="Developed by Oscar Andersson" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="79" Canvas.Top="100"/>
-            <Button x:Name="connectionButton" Content="Connect" Canvas.Left="79" Canvas.Top="131" Width="75" Click="Button_Click_3"/>
-            <Label x:Name="connectionStatus" Content="" Canvas.Left="159" Canvas.Top="126" Width="96" Height="25"/>
+            <Label Content="Welcome to chatapp" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" Canvas.Left="79" Canvas.Top="94"/>
+            <Label Content="Developed by Oscar Andersson" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="79" Canvas.Top="141"/>
             <!-- Login canvas -->
             <Canvas x:Name="login" Height="100" Canvas.Left="79" Canvas.Top="188" Width="229" Visibility="Hidden">
                 <Button x:Name="loginButton" Content="Login" Canvas.Left="144" Canvas.Top="72" Width="75" Click="loginButton_Click"/>
