@@ -25,8 +25,8 @@ namespace chatApp
         //Creates connection with MySql server
         MySqlConnection dbh = new MySqlConnection(@"
                     server=oscarandersson.tk;
-                    userid=oscarander_chatapp;
-                    password=mm54rsa;
+                    userid=oscarander_app;
+                    password=aB3vtJyQbHWPvY6g;
                     database=oscarander_chatapp;
             ");
 
@@ -40,10 +40,12 @@ namespace chatApp
             {
                 dbh.Open(); //Opens a cennection with the MySQL server
                 login.Visibility = Visibility.Visible; //Shows the login canvas.
+                Debug.WriteLine("MySQL Connected");
             }
             catch (MySqlException exeption)
             {
                 //If the connection fails, an error messege is shown and the connection button is visible again.
+                Debug.WriteLine("MySQL Disconnected");
                 Debug.WriteLine(exeption.ToString()); //Debug
             }
         }
