@@ -13,16 +13,32 @@ namespace chatApp
         //Creates an empty database handler object for the mysql connection.
         MySqlConnection dbh = new MySqlConnection();
 
+        //Current account information
+        string username = null;
+        string hash = null;
+
         //Constructor
         public AccountManager(MySqlConnection dbh)
         {
             this.dbh = dbh;
-            dbh.Open();
+            if (dbh.State == System.Data.ConnectionState.Closed)
+            {
+                dbh.Open();
+            }
         }
 
         //Authenticates the user and commits a login if succesfull.
         public bool Login(string inputUsername, string inputPassword)
         {
+            if (usernameCheck(inputUsername) == true)
+            {
+                Debug.WriteLine("username is valid : " + inputUsername);
+            }
+            else
+            {
+                Debug.WriteLine("username is not valid");
+                return false;
+            }
             return false;
         }
 
@@ -38,7 +54,12 @@ namespace chatApp
             MySqlCommand cmd = dbh.CreateCommand();
             cmd.CommandText = "SELECT username FROM user WHERE username = @username";
             cmd.Parameters.AddWithValue("@username", username);
-            return true;
+            cmd.ExecuteReader();
+            if (username.ToLower == cmd)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

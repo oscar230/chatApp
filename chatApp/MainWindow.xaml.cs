@@ -23,13 +23,14 @@ namespace chatApp
     public partial class MainWindow : Window
     {
         //Creates connection with MySql server
-        MySqlConnection dbh = new MySqlConnection(@"
+        private MySqlConnection dbh = new MySqlConnection(@"
                     server=oscarandersson.tk;
                     userid=oscarander_app;
                     password=aB3vtJyQbHWPvY6g;
                     database=oscarander_chatapp;
             ");
 
+        //Builds and initializes the form.
         public MainWindow()
         {
             //Builds form
@@ -38,7 +39,7 @@ namespace chatApp
             //Try to open a connection with the server
             try
             {
-                dbh.Open(); //Opens a cennection with the MySQL server
+                //dbh.Open(); //Opens a cennection with the MySQL server
                 login.Visibility = Visibility.Visible; //Shows the login canvas.
                 Debug.WriteLine("MySQL Connected");
             }
@@ -102,8 +103,9 @@ namespace chatApp
         {
             //Creates the account manager object
             AccountManager account = new AccountManager(dbh);
+
             //Logs the user in.
-            if (account.Login(loginUsername.ToString(), loginPassword.ToString()) == true)
+            if (account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString()) == true)
             {
                 //Login sucessfull
                 login.Visibility = Visibility.Hidden;
