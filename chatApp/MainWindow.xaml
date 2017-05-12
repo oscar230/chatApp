@@ -17,11 +17,12 @@
             <Label Content="Developed by Oscar Andersson" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="79" Canvas.Top="141"/>
             <!-- Login canvas -->
             <Canvas x:Name="login" Height="100" Canvas.Left="79" Canvas.Top="188" Width="229" Visibility="Hidden">
-                <Button x:Name="loginButton" Content="Login" Canvas.Left="144" Canvas.Top="72" Width="75" Click="loginButton_Click"/>
+                <Button x:Name="loginButton" Content="Login" Canvas.Left="122" Canvas.Top="72" Width="97" Click="loginButton_Click"/>
                 <Label x:Name="label" Content="Username" Canvas.Left="10" Canvas.Top="10"/>
                 <Label x:Name="label_Copy" Content="Password" Canvas.Left="10" Canvas.Top="41"/>
                 <TextBox x:Name="loginUsername" Height="23" Canvas.Left="78" TextWrapping="Wrap" Canvas.Top="14" Width="141"/>
                 <TextBox x:Name="loginPassword" Height="23" Canvas.Left="78" TextWrapping="Wrap" Canvas.Top="44" Width="141"/>
+                <Button x:Name="registerButton" Content="Register" Canvas.Left="17" Canvas.Top="72" Width="97" Click="loginButton_Click"/>
             </Canvas>
         </Canvas>
         <!-- Group canvas -->

@@ -117,5 +117,24 @@ namespace chatApp
                 loginPassword = null;
             }
         }
+
+        private void registerButton_Click(object sender, RoutedEventArgs e) //Register
+        {
+            //Creates the account manager object
+            AccountManager account = new AccountManager(dbh);
+
+            //Logs the user in.
+            if (account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString()) == true)
+            {
+                //Login sucessfull
+                login.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                //Login failed. Reset login fields.
+                loginUsername = null;
+                loginPassword = null;
+            }
+        }
     }
 }

@@ -11,16 +11,16 @@ namespace chatApp
     class PasswordHash
     {
 
-        private string HashItteration(string input)
+        public string HashItteration(string input)
         {
-            int itterations = 1000; //Amount of hashing itterations.
+            int itterations = 10000; //Amount of hashing itterations.
             string output = input; //The final hash output.
 
             Debug.WriteLine("Input: " + input);
             for (int i = 0; i < itterations; i++)
             {
                 output = Hash(output); //Hashes the output and asigns the hashsum as the new output.
-                Debug.WriteLine("Hash itteration nr: " + i + "out of " + itterations + "itterations. Hashsum: " + output);
+                Debug.WriteLine("Hash itteration nr: " + i + "out of " + itterations + " itterations. Hashsum: " + output);
             }
 
             return output; //Returns the last hashsum after all of the itterations.
