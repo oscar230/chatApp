@@ -11,7 +11,7 @@ namespace chatApp
     class AccountManager
     {
         //Creates an empty database handler object for the mysql connection.
-        MySqlConnection dbh = new MySqlConnection();
+        public MySqlConnection dbh = new MySqlConnection();
 
         //Current account information
         string username;
@@ -46,7 +46,10 @@ namespace chatApp
                 {
                     Debug.WriteLine("Password is valid");
                     this.active = true;
+                    setOnline(true);
+                    return true;
                 }
+                return false;
             }
             else
             {
@@ -55,13 +58,39 @@ namespace chatApp
                 this.id = 0;
                 return false;
             }
-            return false;
+        }
+
+        //Loging out
+        public void Logout()
+        {
+            setOnline(false);
+            this.username = null;
+            this.id = 0;
         }
 
         //Creates an user account.
         public bool Reg(string inputUsername, string inputPassword)
         {
-            return false;
+            if (usernameCheck(inputUsername) == true)
+            {
+                Debug.WriteLine("Username already exists in database.");
+                return false;
+            }
+            else
+            {
+                PasswordHash hasher = new PasswordHash();
+                string hash = hasher.HashItteration(inputPassword);
+
+                string query = "INSERT INTO user (username, hash) VALUES (@username, @hash)";
+                MySqlCommand cmd = new MySqlCommand(query, dbh);
+                dbh.Open();
+                cmd.Parameters.AddWithValue("@username", inputUsername);
+                cmd.Parameters.AddWithValue("@hash", hash);
+                cmd.ExecuteNonQuery();
+                dbh.Close();
+                Debug.WriteLine("User added to the database.");
+                return true;
+            }      
         }
 
         //Gets and sets the user id for a specific user and sets the class variable this.id.
@@ -80,6 +109,25 @@ namespace chatApp
             dbh.Close();
         }
 
+        //Updates the online status the logged in user.
+        private void setOnline(bool online)
+        {
+            string query = "UPDATE user SET online = @online WHERE id = @id";
+            MySqlCommand cmd = new MySqlCommand(query, dbh);
+            dbh.Open();
+            cmd.Parameters.AddWithValue("@id", this.id);
+            if (online)
+            {
+                cmd.Parameters.AddWithValue("@online", 1);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@online", 0);
+            }
+            cmd.ExecuteNonQuery();
+            dbh.Close();
+        }
+
         //Checks if the user exists and assigns this.id with an integer. This is essential for loging in.
         private bool usernameCheck(string username)
         {
@@ -89,12 +137,15 @@ namespace chatApp
             cmd.Parameters.AddWithValue("@username", username);
             MySqlDataReader rdr = cmd.ExecuteReader();
             rdr.Read();
-            Debug.WriteLine("usernameCheck username : " + rdr[0].ToString());
-            if (username == rdr[0].ToString())
+
+            try
             {
-                dbh.Close();
-                return true;
-            }
+                if (username == rdr[0].ToString())
+                {
+                    dbh.Close();
+                    return true;
+                }
+            }catch (Exception){}
             dbh.Close();
             return false;
         }

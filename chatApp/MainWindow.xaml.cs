@@ -30,17 +30,23 @@ namespace chatApp
                     database=oscarander_chatapp;
             ");
 
+        AccountManager account = null;
+
         //Builds and initializes the form.
         public MainWindow()
         {
             //Builds form
             InitializeComponent();
 
+            //Creates the account manager object
+            AccountManager account = new AccountManager(dbh);
+
             //Try to open a connection with the server
             try
             {
                 //dbh.Open(); //Opens a cennection with the MySQL server
                 login.Visibility = Visibility.Visible; //Shows the login canvas.
+                logout.Visibility = Visibility.Hidden;
                 Debug.WriteLine("MySQL Connected");
             }
             catch (MySqlException exeption)
@@ -101,14 +107,14 @@ namespace chatApp
 
         private void loginButton_Click(object sender, RoutedEventArgs e) //Login
         {
-            //Creates the account manager object
-            AccountManager account = new AccountManager(dbh);
 
             //Logs the user in.
             if (account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString()) == true)
             {
                 //Login sucessfull
                 login.Visibility = Visibility.Hidden;
+                logout.Visibility = Visibility.Visible;
+                logoutLabel.Content = loginUsername;
             }
             else
             {
@@ -118,23 +124,28 @@ namespace chatApp
             }
         }
 
-        private void registerButton_Click(object sender, RoutedEventArgs e) //Register
+        private void regButton_Click(object sender, RoutedEventArgs e) //Register
         {
-            //Creates the account manager object
-            AccountManager account = new AccountManager(dbh);
-
-            //Logs the user in.
-            if (account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString()) == true)
+            //Registers the user.
+            if (account.Reg(loginUsername.Text.ToString(), loginPassword.Text.ToString()))
             {
-                //Login sucessfull
+                //Register sucessfull
+                account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString());
                 login.Visibility = Visibility.Hidden;
+                logout.Visibility = Visibility.Visible;
+                logoutLabel.Content = loginUsername;
             }
             else
             {
                 //Login failed. Reset login fields.
-                loginUsername = null;
-                loginPassword = null;
+                loginUsername.Text = null;
+                loginPassword.Text = null;
             }
+        }
+
+        private void logoutButton_Click(object sender, RoutedEventArgs e) //Logout
+        {
+            account.Logout();
         }
     }
 }
