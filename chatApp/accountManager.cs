@@ -10,8 +10,13 @@ namespace chatApp
 {
     class AccountManager
     {
-        //Creates an empty database handler object for the mysql connection.
-        public MySqlConnection dbh = new MySqlConnection();
+        //Creates connection with MySql server
+        public static MySqlConnection dbh = new MySqlConnection(@"
+                    server=oscarandersson.tk;
+                    userid=oscarander_app;
+                    password=aB3vtJyQbHWPvY6g;
+                    database=oscarander_chatapp;
+            ");
 
         //Current account information
         string username;
@@ -19,10 +24,8 @@ namespace chatApp
         bool active = false;
 
         //Constructor
-        public AccountManager(MySqlConnection dbh)
+        public AccountManager()
         {
-            this.dbh = dbh; //Declares the dabase handeler of this class.
-
             this.username = null;
             this.id = 0; //No user can have an user id of 0 and therefore 0 is seen as null.
         }
@@ -135,17 +138,18 @@ namespace chatApp
             MySqlCommand cmd = new MySqlCommand(query, dbh);
             dbh.Open();
             cmd.Parameters.AddWithValue("@username", username);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-            rdr.Read();
+            MySqlDataReader usernameGet;
 
             try
             {
-                if (username == rdr[0].ToString())
+                if (rdr[0].ToString() != null)
                 {
                     dbh.Close();
                     return true;
                 }
-            }catch (Exception){}
+            }
+            catch (Exception)
+            { }
             dbh.Close();
             return false;
         }

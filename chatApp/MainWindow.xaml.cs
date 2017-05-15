@@ -22,24 +22,13 @@ namespace chatApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Creates connection with MySql server
-        private MySqlConnection dbh = new MySqlConnection(@"
-                    server=oscarandersson.tk;
-                    userid=oscarander_app;
-                    password=aB3vtJyQbHWPvY6g;
-                    database=oscarander_chatapp;
-            ");
-
-        AccountManager account = null;
+        AccountManager account = new AccountManager();
 
         //Builds and initializes the form.
         public MainWindow()
         {
             //Builds form
             InitializeComponent();
-
-            //Creates the account manager object
-            AccountManager account = new AccountManager(dbh);
 
             //Try to open a connection with the server
             try
@@ -109,7 +98,7 @@ namespace chatApp
         {
 
             //Logs the user in.
-            if (account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString()) == true)
+            if (this.account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString()) == true)
             {
                 //Login sucessfull
                 login.Visibility = Visibility.Hidden;
@@ -127,10 +116,10 @@ namespace chatApp
         private void regButton_Click(object sender, RoutedEventArgs e) //Register
         {
             //Registers the user.
-            if (account.Reg(loginUsername.Text.ToString(), loginPassword.Text.ToString()))
+            if (this.account.Reg(loginUsername.Text.ToString(), loginPassword.Text.ToString()))
             {
                 //Register sucessfull
-                account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString());
+                this.account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString());
                 login.Visibility = Visibility.Hidden;
                 logout.Visibility = Visibility.Visible;
                 logoutLabel.Content = loginUsername;
