@@ -96,14 +96,15 @@ namespace chatApp
 
         private void loginButton_Click(object sender, RoutedEventArgs e) //Login
         {
-
+            
             //Logs the user in.
-            if (this.account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString()) == true)
+            if (this.account.Login(loginUsername.Text, loginPassword.Text))
             {
+                Debug.WriteLine("Funkar!");
                 //Login sucessfull
                 login.Visibility = Visibility.Hidden;
                 logout.Visibility = Visibility.Visible;
-                logoutLabel.Content = loginUsername;
+                //logoutLabel.Content = loginUsername;
             }
             else
             {

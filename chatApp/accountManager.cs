@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data; //
 using MySql.Data.MySqlClient; //MySql
 using System.Diagnostics; //Debug
 
@@ -49,7 +50,9 @@ namespace chatApp
                 {
                     Debug.WriteLine("Password is valid");
                     this.active = true;
+                    Debug.WriteLine("active");
                     setOnline(true);
+                    Debug.WriteLine("online");
                     return true;
                 }
                 return false;
@@ -134,18 +137,28 @@ namespace chatApp
         //Checks if the user exists and assigns this.id with an integer. This is essential for loging in.
         private bool usernameCheck(string username)
         {
-            string query = "SELECT username FROM user WHERE username = @username";
-            MySqlCommand cmd = new MySqlCommand(query, dbh);
             dbh.Open();
-            cmd.Parameters.AddWithValue("@username", username);
+            string query = @"SELECT username FROM user";
+            MySqlCommand cmd = new MySqlCommand(query, dbh);
+            //cmd.Parameters.AddWithValue("@username", username);
             MySqlDataReader usernameGet;
-
+            usernameGet = cmd.ExecuteReader();
+            DataTable data = new DataTable();
+            data.Load(usernameGet);
+            
+            //Looks for the username
             try
             {
-                if (rdr[0].ToString() != null)
+                if (data != null)
                 {
-                    dbh.Close();
-                    return true;
+                    foreach (DataRow row in data.Rows)
+                    {
+                        if (username == row["username"].ToString())
+                        {
+                            dbh.Close();
+                            return true;
+                        }
+                    }
                 }
             }
             catch (Exception)
