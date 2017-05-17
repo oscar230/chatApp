@@ -23,6 +23,7 @@ namespace chatApp
     public partial class MainWindow : Window
     {
         AccountManager account = new AccountManager();
+        User user;
 
         //Builds and initializes the form.
         public MainWindow()
@@ -91,6 +92,17 @@ namespace chatApp
                 canvas_chat.Visibility = Visibility.Hidden;
                 canvas_userlist.Visibility = Visibility.Visible;
                 motd_group.Visibility = Visibility.Hidden;
+
+                if (user == null && account.ToString() == "True")
+                {
+                    user = new User();
+                    Debug.WriteLine("Created user object.");
+                    while (user.userList == null)
+                    {
+                        Debug.WriteLine("Waiting for database.");
+                    }
+                    userListBox.ItemsSource = user.userList;
+                }
             }
         }
 
@@ -100,11 +112,11 @@ namespace chatApp
             //Logs the user in.
             if (this.account.Login(loginUsername.Text, loginPassword.Text))
             {
-                Debug.WriteLine("Funkar!");
+                Debug.WriteLine("Funkar! " + account.ToString());
                 //Login sucessfull
                 login.Visibility = Visibility.Hidden;
                 logout.Visibility = Visibility.Visible;
-                //logoutLabel.Content = loginUsername;
+                logoutLabel.Content = loginUsername.Text;
             }
             else
             {
@@ -120,10 +132,8 @@ namespace chatApp
             if (this.account.Reg(loginUsername.Text.ToString(), loginPassword.Text.ToString()))
             {
                 //Register sucessfull
-                this.account.Login(loginUsername.Text.ToString(), loginPassword.Text.ToString());
-                login.Visibility = Visibility.Hidden;
-                logout.Visibility = Visibility.Visible;
-                logoutLabel.Content = loginUsername;
+                loginUsername.Text = null;
+                loginPassword.Text = null;
             }
             else
             {
@@ -134,6 +144,16 @@ namespace chatApp
         }
 
         private void logoutButton_Click(object sender, RoutedEventArgs e) //Logout
+        {
+            if (account.Logout())
+            {
+                login.Visibility = Visibility.Visible;
+                logout.Visibility = Visibility.Hidden;
+                logoutLabel.Content = null;
+            }
+        }
+
+        private void closing(object sender, System.ComponentModel.CancelEventArgs e) //When closing WPF with X
         {
             account.Logout();
         }

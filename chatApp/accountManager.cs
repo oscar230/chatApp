@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data; //
+using System.Data; //Data management
 using MySql.Data.MySqlClient; //MySql
 using System.Diagnostics; //Debug
 
@@ -20,8 +20,8 @@ namespace chatApp
             ");
 
         //Current account information
-        string username;
-        int id;
+        public string username { get; private set; }
+        public int id { get; private set; }
         bool active = false;
 
         //Constructor
@@ -67,11 +67,16 @@ namespace chatApp
         }
 
         //Loging out
-        public void Logout()
+        public bool Logout()
         {
             setOnline(false);
             this.username = null;
             this.id = 0;
+            if (this.id == 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         //Creates an user account.
@@ -138,9 +143,9 @@ namespace chatApp
         private bool usernameCheck(string username)
         {
             dbh.Open();
-            string query = @"SELECT username FROM user";
+            string query = @"SELECT username FROM user WHERE username = @username";
             MySqlCommand cmd = new MySqlCommand(query, dbh);
-            //cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@username", username);
             MySqlDataReader usernameGet;
             usernameGet = cmd.ExecuteReader();
             DataTable data = new DataTable();

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:chatApp"
         mc:Ignorable="d"
-        Title="ChatApp" Height="501.4" Width="421.4" BorderThickness="0" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="ChatApp" Height="501.4" Width="421.4" BorderThickness="0" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="closing">
     <Grid>
         <!-- Menu buttons -->
         <Button Content="Group" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click"/>
@@ -28,7 +28,7 @@
             <!-- Logout canvas -->
             <Canvas x:Name="logout" Height="125" Canvas.Left="79" Canvas.Top="188" Width="229" Visibility="Visible">
                 <Label x:Name="logoutLabel" Content="Username" Canvas.Left="10" Canvas.Top="10"/>
-                <Button x:Name="logoutButton" Content="Button" Canvas.Left="10" Canvas.Top="36" Width="75" Click="logoutButton_Click"/>
+                <Button x:Name="logoutButton" Content="Logout" Canvas.Left="10" Canvas.Top="36" Width="75" Click="logoutButton_Click"/>
             </Canvas>
         </Canvas>
         <!-- Group canvas -->
@@ -47,10 +47,10 @@
         <Canvas x:Name="canvas_chat" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
             <Button Content="Send" Canvas.Left="309" Canvas.Top="382" Width="75" Height="23" RenderTransformOrigin="0.56,0.4"/>
             <TextBox Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="TextBox" Canvas.Top="382" Width="294"/>
-            <RichTextBox Height="337" Canvas.Left="10" Canvas.Top="40" Width="374">
+            <RichTextBox x:Name="chatHistory" Height="337" Canvas.Left="10" Canvas.Top="40" Width="374">
                 <FlowDocument>
                     <Paragraph>
-                        <Run Text="RichTextBox"/>
+                        <Run Text=""/>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
@@ -58,16 +58,12 @@
         </Canvas>
         <!-- Userlist canvas -->
         <Canvas x:Name="canvas_userlist" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
-            <Button Content="Send" Canvas.Left="309" Canvas.Top="382" Width="75" Height="23" RenderTransformOrigin="0.56,0.4"/>
-            <TextBox Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="TextBox" Canvas.Top="382" Width="294"/>
-            <RichTextBox Height="337" Canvas.Left="10" Canvas.Top="40" Width="374">
-                <FlowDocument>
-                    <Paragraph>
-                        <Run Text="RichTextBox"/>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-            <Label Content="In a chat with the group: " Canvas.Left="10" Canvas.Top="10" Width="374"/>
+            <Button Content="Send" Canvas.Left="10" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4"/>
+            <Label Content="Total list of all users." Canvas.Left="10" Canvas.Top="10" Width="170"/>
+            <ListBox x:Name="userListBox" Height="312" Canvas.Left="10" Canvas.Top="35" Width="170"/>
+            <ListBox x:Name="userListBox_Copy" Height="312" Canvas.Left="214" Canvas.Top="35" Width="170"/>
+            <Button Content="Send" Canvas.Left="214" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4"/>
+            <Label Content="List of users which are friends." Canvas.Left="214" Canvas.Top="10" Width="170"/>
         </Canvas>
     </Grid>
 </Window>
