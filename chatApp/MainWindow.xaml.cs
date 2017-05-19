@@ -31,20 +31,13 @@ namespace chatApp
             //Builds form
             InitializeComponent();
 
-            //Try to open a connection with the server
-            try
-            {
-                //dbh.Open(); //Opens a cennection with the MySQL server
-                login.Visibility = Visibility.Visible; //Shows the login canvas.
-                logout.Visibility = Visibility.Hidden;
-                Debug.WriteLine("MySQL Connected");
-            }
-            catch (MySqlException exeption)
-            {
-                //If the connection fails, an error messege is shown and the connection button is visible again.
-                Debug.WriteLine("MySQL Disconnected");
-                Debug.WriteLine(exeption.ToString()); //Debug
-            }
+            motd_group.Visibility = Visibility.Visible; //MOTD contains login and logout
+            login.Visibility = Visibility.Visible; //Shows the login canvas.
+            logout.Visibility = Visibility.Hidden;//Hides the logout canvas.
+
+            canvas_group.Visibility = Visibility.Hidden;
+            canvas_chat.Visibility = Visibility.Hidden;
+            canvas_userlist.Visibility = Visibility.Hidden;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) //Group

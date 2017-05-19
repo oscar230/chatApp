@@ -12,7 +12,7 @@
         <Button Content="Chat" HorizontalAlignment="Left" Margin="143,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click_1"/>
         <Button Content="Users" HorizontalAlignment="Left" Margin="276,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click_2"/>
         <!-- motd canvas -->
-        <Canvas x:Name="motd_group" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
+        <Canvas x:Name="motd_group" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
             <Label Content="Welcome to chatapp" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" Canvas.Left="79" Canvas.Top="94"/>
             <Label Content="Developed by Oscar Andersson" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="79" Canvas.Top="141"/>
             <!-- Login canvas -->
