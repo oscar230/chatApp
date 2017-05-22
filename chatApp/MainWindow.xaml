@@ -58,11 +58,11 @@
         </Canvas>
         <!-- Userlist canvas -->
         <Canvas x:Name="canvas_userlist" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
-            <Button Content="Send" Canvas.Left="10" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4"/>
+            <Button x:Name="userlistAddFriend" Content="Add" Canvas.Left="10" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistAddFriend_Click"/>
             <Label Content="Total list of all users." Canvas.Left="10" Canvas.Top="10" Width="170"/>
             <ListBox x:Name="userListBox" Height="312" Canvas.Left="10" Canvas.Top="35" Width="170"/>
-            <ListBox x:Name="userListBox_Copy" Height="312" Canvas.Left="214" Canvas.Top="35" Width="170"/>
-            <Button Content="Send" Canvas.Left="214" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4"/>
+            <ListBox x:Name="friendListBox" Height="312" Canvas.Left="214" Canvas.Top="35" Width="170"/>
+            <Button x:Name="userlistDeleteFriend" Content="Delete" Canvas.Left="214" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistDeleteFriend_Click"/>
             <Label Content="List of users which are friends." Canvas.Left="214" Canvas.Top="10" Width="170"/>
         </Canvas>
     </Grid>

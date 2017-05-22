@@ -94,7 +94,13 @@ namespace chatApp
                     {
                         Debug.WriteLine("Waiting for database.");
                     }
+                    //Get the full userlist.
                     userListBox.ItemsSource = user.userList;
+                    //If the logged in user has any friends they will be handled here.
+                    if (user.GetFriends() != null)
+                    {
+                        friendListBox.ItemsSource = user.GetFriends().Values;
+                    }
                 }
             }
         }
@@ -149,6 +155,16 @@ namespace chatApp
         private void closing(object sender, System.ComponentModel.CancelEventArgs e) //When closing WPF with X
         {
             account.Logout();
+        }
+
+        private void userlistAddFriend_Click(object sender, RoutedEventArgs e) //userlistAddFriend
+        {
+            Debug.WriteLine("selected user in userlist: " + user.GetId(userListBox.SelectedItem.ToString()) + " - " + userListBox.SelectedItem.ToString());
+        }
+
+        private void userlistDeleteFriend_Click(object sender, RoutedEventArgs e) //userlistDeleteFriend
+        {
+
         }
     }
 }
