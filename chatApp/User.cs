@@ -14,7 +14,7 @@ namespace chatApp
         AccountManager account = new AccountManager(); //Get logged in user details.
         MySqlConnection dbh = AccountManager.dbh; //Dabase handler.
 
-        public Dictionary<int, string> userList { get; private set; } //A list of all users using their username.
+        public List<string> userList { get; private set; } //A list of all users using their username.
 
         //Constructor
         public User()
@@ -27,21 +27,21 @@ namespace chatApp
 
             DataTable data = new DataTable();
             data.Load(usernameGet);
-            dbh.Close();
-
-            userList = new Dictionary<int, string>();
+            
+            userList = new List<string>();
 
             foreach (DataRow user in data.Rows)
             {
                 Debug.WriteLine("Added " + user["id"].ToString() + " - " + user["username"].ToString() + " to the userList.");
-                userList.Add(Convert.ToInt32(user["id"].ToString()) ,user["username"].ToString());
+                userList.Add(user["username"].ToString());
             }
-            
-        }
+            dbh.Close();
 
-        public Dictionary<int, string> GetFriends()
+        }
+        //Gets the list of all friends for a specifik user (the user who is logged in)
+        public List<string> GetFriends()
         {
-            Dictionary<int, string> friends = new Dictionary<int, string>();
+            List<string> friends = new List<string>();
 
             dbh.Open();
 
@@ -56,7 +56,7 @@ namespace chatApp
 
             foreach (DataRow row in data.Rows)
             {
-                friends.Add(Convert.ToInt32(row["id2"].ToString()), GetUsername(Convert.ToInt32(row["id2"].ToString())));
+                friends.Add(GetUsername(Convert.ToInt32(row["id2"].ToString())));
             }
 
             dbh.Close();
@@ -67,7 +67,19 @@ namespace chatApp
             }
             return friends;
         }
+        //Adds users ids to the friends list table
+        public void AddFreind(int id)
+        {
+            dbh.Open();
+            string query = "INSERT INTO friend (id1, id2) VALUES (@id1, @id2)";
+            MySqlCommand cmd = new MySqlCommand(query, dbh);
+            cmd.Parameters.AddWithValue("@id1", account.id);
+            cmd.Parameters.AddWithValue("@id2", id);
+            cmd.ExecuteNonQuery();
+            dbh.Close();
 
+            Debug.WriteLine("Added: (" + account.id + ", " + id + ").");
+        }
         //Returns the id of the user that the client is looking for.
         public int GetId(string username)
         {
@@ -80,7 +92,6 @@ namespace chatApp
 
             DataTable data = new DataTable();
             data.Load(usernameGet);
-            dbh.Close();
 
             int id = 0;
 
@@ -89,13 +100,16 @@ namespace chatApp
                 if (row["username"].ToString() == username)
                 {
                     username = row["id"].ToString();
+                    dbh.Close();
                     return id;
                 }
             }
+            dbh.Close();
             return id;
         }
         public string GetUsername(int id)
         {
+            dbh.Close();
             dbh.Open();
             string query = @"SELECT id, username FROM user WHERE id = @id";
             MySqlCommand cmd = new MySqlCommand(query, dbh);
@@ -105,8 +119,7 @@ namespace chatApp
 
             DataTable data = new DataTable();
             data.Load(usernameGet);
-            dbh.Close();
-
+            
             string username = null;
 
             foreach (DataRow row in data.Rows)
@@ -117,9 +130,9 @@ namespace chatApp
                     return username;
                 }
             }
+            dbh.Close();
             return username;
         }
-
         //Returns the state of the user (true online, false offline).
         public bool GetOnlineState(int id)
         {

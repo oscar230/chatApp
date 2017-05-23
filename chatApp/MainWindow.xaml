@@ -23,7 +23,7 @@
                 <TextBox x:Name="loginUsername" Height="23" Canvas.Left="78" TextWrapping="Wrap" Canvas.Top="14" Width="141"/>
                 <TextBox x:Name="loginPassword" Height="23" Canvas.Left="78" TextWrapping="Wrap" Canvas.Top="44" Width="141"/>
                 <Button x:Name="regButton" Content="Register" Canvas.Left="20" Canvas.Top="72" Width="97" Click="regButton_Click"/>
-                <ProgressBar Height="20" Canvas.Left="20" Canvas.Top="97" Width="199"/>
+                <ProgressBar x:Name="loginProgress" IsIndeterminate="False" Height="20" Canvas.Left="20" Canvas.Top="97" Width="199"/>
             </Canvas>
             <!-- Logout canvas -->
             <Canvas x:Name="logout" Height="125" Canvas.Left="79" Canvas.Top="188" Width="229" Visibility="Visible">

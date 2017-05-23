@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient; //MySql
 using System.Diagnostics; //Debug
+using System.ComponentModel;
 
 namespace chatApp
 {
@@ -99,7 +100,7 @@ namespace chatApp
                     //If the logged in user has any friends they will be handled here.
                     if (user.GetFriends() != null)
                     {
-                        friendListBox.ItemsSource = user.GetFriends().Values;
+                        friendListBox.ItemsSource = user.GetFriends();
                     }
                 }
             }
@@ -107,12 +108,14 @@ namespace chatApp
 
         private void loginButton_Click(object sender, RoutedEventArgs e) //Login
         {
-            
+            loginProgress.IsIndeterminate = true;
+
             //Logs the user in.
             if (this.account.Login(loginUsername.Text, loginPassword.Text))
             {
                 Debug.WriteLine("Funkar! " + account.ToString());
                 //Login sucessfull
+                loginProgress.IsIndeterminate = false;
                 login.Visibility = Visibility.Hidden;
                 logout.Visibility = Visibility.Visible;
                 logoutLabel.Content = loginUsername.Text;
@@ -120,6 +123,7 @@ namespace chatApp
             else
             {
                 //Login failed. Reset login fields.
+                loginProgress.IsIndeterminate = false;
                 loginUsername = null;
                 loginPassword = null;
             }
@@ -159,7 +163,17 @@ namespace chatApp
 
         private void userlistAddFriend_Click(object sender, RoutedEventArgs e) //userlistAddFriend
         {
-            Debug.WriteLine("selected user in userlist: " + user.GetId(userListBox.SelectedItem.ToString()) + " - " + userListBox.SelectedItem.ToString());
+            //The user id of the user to add.
+            int friend = user.GetId(userListBox.SelectedItem.ToString());
+            
+            //Debug
+            //Debug.WriteLine("selected user in userlist: " + friend + " - ." + userListBox.SelectedItem.ToString() + ".");
+
+            //Adds friend to database
+            user.AddFreind(friend);
+
+            //Reloads the freind list
+            user.GetFriends();
         }
 
         private void userlistDeleteFriend_Click(object sender, RoutedEventArgs e) //userlistDeleteFriend
