@@ -11,14 +11,15 @@ namespace chatApp
 {
     class User
     {
-        AccountManager account = new AccountManager(); //Get logged in user details.
-        MySqlConnection dbh = AccountManager.dbh; //Dabase handler.
+        AccountManager account; //Initates a empty account obejct.
+        MySqlConnection dbh = AccountManager.dbh; //Initiates the database handler object.
 
         public List<string> userList { get; private set; } //A list of all users using their username.
 
         //Constructor
-        public User()
+        public User(AccountManager account)
         {
+            this.account = account;
             dbh.Open();
             string query = @"SELECT id, username FROM user";
             MySqlCommand cmd = new MySqlCommand(query, dbh);
@@ -78,13 +79,13 @@ namespace chatApp
             cmd.ExecuteNonQuery();
             dbh.Close();
 
-            Debug.WriteLine("Added: (" + account.id + ", " + id + ").");
+            Debug.WriteLine("Initiate AddFriend()\n Added: (" + account.id + ", " + id + ").");
         }
         //Returns the id of the user that the client is looking for.
         public int GetId(string username)
         {
             dbh.Open();
-            string query = @"SELECT id, username FROM user WHERE username = @username";
+            string query = @"SELECT id FROM user WHERE username = @username";
             MySqlCommand cmd = new MySqlCommand(query, dbh);
             cmd.Parameters.AddWithValue("@username", username);
             MySqlDataReader usernameGet;
@@ -97,12 +98,10 @@ namespace chatApp
 
             foreach (DataRow row in data.Rows)
             {
-                if (row["username"].ToString() == username)
-                {
-                    username = row["id"].ToString();
-                    dbh.Close();
-                    return id;
-                }
+                Debug.WriteLine("In: " + username + ". Id: " + row["id"].ToString());
+                id = Convert.ToInt32(row["id"].ToString());
+                dbh.Close();
+                return id;
             }
             dbh.Close();
             return id;

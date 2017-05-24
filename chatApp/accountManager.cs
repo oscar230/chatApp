@@ -45,6 +45,7 @@ namespace chatApp
             if (usernameCheck(inputUsername))
             {
                 setId(inputUsername);
+                Debug.WriteLine("Id set");
                 this.username = inputUsername;
                 Debug.WriteLine("username is valid : " + this.username + " : id : " + this.id);
                 if (passwordCheck(inputPassword))
@@ -53,10 +54,16 @@ namespace chatApp
                     this.active = true;
                     Debug.WriteLine("active");
                     setOnline(true);
-                    Debug.WriteLine("online");
+                    Debug.WriteLine("online \n Id: " + this.id);
                     return true;
                 }
-                return false;
+                else
+                {
+                    Debug.WriteLine("password is not valid");
+                    this.username = null;
+                    this.id = 0;
+                    return false;
+                }
             }
             else
             {

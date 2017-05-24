@@ -89,7 +89,7 @@ namespace chatApp
 
                 if (user == null && account.ToString() == "True")
                 {
-                    user = new User();
+                    user = new User(account);
                     Debug.WriteLine("Created user object.");
                     while (user.userList == null)
                     {
@@ -167,7 +167,7 @@ namespace chatApp
             int friend = user.GetId(userListBox.SelectedItem.ToString());
             
             //Debug
-            //Debug.WriteLine("selected user in userlist: " + friend + " - ." + userListBox.SelectedItem.ToString() + ".");
+            Debug.WriteLine("User: " + account.id + ". Selected user in userlist: " + friend + " - " + userListBox.SelectedItem.ToString() + ".");
 
             //Adds friend to database
             user.AddFreind(friend);
