@@ -37,40 +37,47 @@ namespace chatApp
                 userList.Add(user["username"].ToString());
             }
             dbh.Close();
-
         }
         //Gets the list of all friends for a specifik user (the user who is logged in)
         public List<string> GetFriends()
         {
+            Debug.WriteLine("Active user id: " + Convert.ToString(account.id));
             List<string> friends = new List<string>();
 
             dbh.Open();
 
             string query = @"SELECT id2 FROM friend WHERE id1 = @id";
             MySqlCommand cmd = new MySqlCommand(query, dbh);
-            cmd.Parameters.AddWithValue("@id", Convert.ToString(account.ToString()));
+            cmd.Parameters.AddWithValue("@id", Convert.ToString(account.id));
             MySqlDataReader friendGet;
             friendGet = cmd.ExecuteReader();
 
             DataTable data = new DataTable();
             data.Load(friendGet);
 
-            foreach (DataRow row in data.Rows)
-            {
-                friends.Add(GetUsername(Convert.ToInt32(row["id2"].ToString())));
-            }
-
             dbh.Close();
 
-            if (data != null)
+            foreach (DataRow row in data.Rows)
             {
-                return null;
+                Debug.WriteLine(GetUsername(Convert.ToInt32(row["id2"].ToString())));
+                friends.Add(GetUsername(Convert.ToInt32(row["id2"].ToString())));
             }
+            
             return friends;
         }
         //Adds users ids to the friends list table
         public void AddFreind(int id)
         {
+            List<string> friends = GetFriends();
+            string username = GetUsername(id);
+            foreach (string friend in friends)
+            {
+                if (username == friend)
+                {
+                    //Exits the method.
+                    return;
+                }
+            }
             dbh.Open();
             string query = "INSERT INTO friend (id1, id2) VALUES (@id1, @id2)";
             MySqlCommand cmd = new MySqlCommand(query, dbh);
@@ -84,6 +91,7 @@ namespace chatApp
         //Returns the id of the user that the client is looking for.
         public int GetId(string username)
         {
+            dbh.Close();
             dbh.Open();
             string query = @"SELECT id FROM user WHERE username = @username";
             MySqlCommand cmd = new MySqlCommand(query, dbh);
@@ -125,7 +133,8 @@ namespace chatApp
             {
                 if (Convert.ToInt32(row["id"].ToString()) == id)
                 {
-                    username = row["id"].ToString();
+                    username = row["username"].ToString();
+                    dbh.Close();
                     return username;
                 }
             }

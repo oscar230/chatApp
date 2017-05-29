@@ -57,13 +57,14 @@
             <Label Content="In a chat with the group: " Canvas.Left="10" Canvas.Top="10" Width="374"/>
         </Canvas>
         <!-- Userlist canvas -->
-        <Canvas x:Name="canvas_userlist" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
+        <Canvas x:Name="canvas_userlist" Visibility="Visible" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
             <Button x:Name="userlistAddFriend" Content="Add" Canvas.Left="10" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistAddFriend_Click"/>
             <Label Content="Total list of all users." Canvas.Left="10" Canvas.Top="10" Width="170"/>
             <ListBox x:Name="userListBox" Height="312" Canvas.Left="10" Canvas.Top="35" Width="170"/>
             <ListBox x:Name="friendListBox" Height="312" Canvas.Left="214" Canvas.Top="35" Width="170"/>
-            <Button x:Name="userlistDeleteFriend" Content="Delete" Canvas.Left="214" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistDeleteFriend_Click"/>
+            <Button x:Name="userlistDeleteFriend" Content="Delete" Canvas.Left="214" Canvas.Top="352" Width="92" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistDeleteFriend_Click"/>
             <Label Content="List of users which are friends." Canvas.Left="214" Canvas.Top="10" Width="170"/>
+            <Button x:Name="userlistReload" Content="Reload" Canvas.Left="306" Canvas.Top="352" Width="78" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistDeleteFriend_Click"/>
         </Canvas>
     </Grid>
 </Window>

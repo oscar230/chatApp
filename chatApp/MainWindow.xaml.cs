@@ -91,6 +91,7 @@ namespace chatApp
                 {
                     user = new User(account);
                     Debug.WriteLine("Created user object.");
+
                     while (user.userList == null)
                     {
                         Debug.WriteLine("Waiting for database.");
@@ -98,9 +99,16 @@ namespace chatApp
                     //Get the full userlist.
                     userListBox.ItemsSource = user.userList;
                     //If the logged in user has any friends they will be handled here.
-                    if (user.GetFriends() != null)
+                    Debug.WriteLine("Getting friends.");
+                    List<string> friends = user.GetFriends();
+                    if (friends != null)
                     {
-                        friendListBox.ItemsSource = user.GetFriends();
+                        Debug.WriteLine("Friendslist filled.");
+                        friendListBox.ItemsSource = friends;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("The active user does not have any friends.");
                     }
                 }
             }
