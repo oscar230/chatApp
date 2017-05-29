@@ -92,24 +92,15 @@ namespace chatApp
                     user = new User(account);
                     Debug.WriteLine("Created user object.");
 
+                    FriendListReload();
+
                     while (user.userList == null)
                     {
                         Debug.WriteLine("Waiting for database.");
                     }
                     //Get the full userlist.
                     userListBox.ItemsSource = user.userList;
-                    //If the logged in user has any friends they will be handled here.
-                    Debug.WriteLine("Getting friends.");
-                    List<string> friends = user.GetFriends();
-                    if (friends != null)
-                    {
-                        Debug.WriteLine("Friendslist filled.");
-                        friendListBox.ItemsSource = friends;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("The active user does not have any friends.");
-                    }
+                    
                 }
             }
         }
@@ -181,12 +172,33 @@ namespace chatApp
             user.AddFreind(friend);
 
             //Reloads the freind list
-            user.GetFriends();
+            FriendListReload();
         }
 
         private void userlistDeleteFriend_Click(object sender, RoutedEventArgs e) //userlistDeleteFriend
         {
 
+        }
+
+        private void userlistReload_Click(object sender, RoutedEventArgs e) //Reload the friend userlist
+        {
+            FriendListReload();
+        }
+
+        private void FriendListReload() //Reloads the freindlist
+        {
+            //If the logged in user has any friends they will be handled here.
+            Debug.WriteLine("Getting friends.");
+            List<string> friends = user.GetFriends();
+            if (friends != null)
+            {
+                Debug.WriteLine("Friendslist filled.");
+                friendListBox.ItemsSource = friends;
+            }
+            else
+            {
+                Debug.WriteLine("The active user does not have any friends.");
+            }
         }
     }
 }
