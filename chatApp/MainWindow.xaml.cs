@@ -25,6 +25,7 @@ namespace chatApp
     {
         AccountManager account = new AccountManager();
         User user;
+        Chat chat;
 
         //Builds and initializes the form.
         public MainWindow()
@@ -36,25 +37,8 @@ namespace chatApp
             login.Visibility = Visibility.Visible; //Shows the login canvas.
             logout.Visibility = Visibility.Hidden;//Hides the logout canvas.
 
-            canvas_group.Visibility = Visibility.Hidden;
             canvas_chat.Visibility = Visibility.Hidden;
             canvas_userlist.Visibility = Visibility.Hidden;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e) //Group
-        {
-            if (canvas_group.Visibility == Visibility.Visible)
-            {
-                canvas_group.Visibility = Visibility.Hidden;
-                motd_group.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                canvas_group.Visibility = Visibility.Visible;
-                canvas_chat.Visibility = Visibility.Hidden;
-                canvas_userlist.Visibility = Visibility.Hidden;
-                motd_group.Visibility = Visibility.Hidden;
-            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e) //Chat
@@ -66,7 +50,6 @@ namespace chatApp
             }
             else
             {
-                canvas_group.Visibility = Visibility.Hidden;
                 canvas_chat.Visibility = Visibility.Visible;
                 canvas_userlist.Visibility = Visibility.Hidden;
                 motd_group.Visibility = Visibility.Hidden;
@@ -82,7 +65,6 @@ namespace chatApp
             }
             else
             {
-                canvas_group.Visibility = Visibility.Hidden;
                 canvas_chat.Visibility = Visibility.Hidden;
                 canvas_userlist.Visibility = Visibility.Visible;
                 motd_group.Visibility = Visibility.Hidden;
@@ -157,6 +139,7 @@ namespace chatApp
 
         private void closing(object sender, System.ComponentModel.CancelEventArgs e) //When closing WPF with X
         {
+            Debug.WriteLine("Closing.");
             account.Logout();
         }
 
@@ -177,7 +160,8 @@ namespace chatApp
 
         private void userlistDeleteFriend_Click(object sender, RoutedEventArgs e) //userlistDeleteFriend
         {
-
+            user.DeleteFreind(user.GetId(friendListBox.SelectedItem.ToString()));
+            FriendListReload();
         }
 
         private void userlistReload_Click(object sender, RoutedEventArgs e) //Reload the friend userlist
@@ -188,7 +172,7 @@ namespace chatApp
         private void FriendListReload() //Reloads the freindlist
         {
             //If the logged in user has any friends they will be handled here.
-            Debug.WriteLine("Getting friends.");
+            Debug.WriteLine("Reload! - Getting friends.");
             List<string> friends = user.GetFriends();
             if (friends != null)
             {
@@ -199,6 +183,28 @@ namespace chatApp
             {
                 Debug.WriteLine("The active user does not have any friends.");
             }
+        }
+
+        private void ChatListReload() //Reloads the chatlist
+        {
+            chatListBox.ItemsSource = chat.GetChat();
+        }
+
+        private void userlistStart_Click(object sender, RoutedEventArgs e) //Initiates a chat with a friend.
+        {
+            Debug.WriteLine("Starting a chat with: " + friendListBox.SelectedItem.ToString());
+            chatName.Content = friendListBox.SelectedItem.ToString();
+
+            chat = new Chat(account, user.GetId(friendListBox.SelectedItem.ToString()));
+
+            ChatListReload();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            chat.Send(chatCurrent.Text);
+            chatCurrent.Text = null;
+            ChatListReload();
         }
     }
 }

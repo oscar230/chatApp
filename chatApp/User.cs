@@ -65,7 +65,7 @@ namespace chatApp
             
             return friends;
         }
-        //Adds users ids to the friends list table
+        //Adds a users ids to the friends list table
         public void AddFreind(int id)
         {
             List<string> friends = GetFriends();
@@ -87,6 +87,19 @@ namespace chatApp
             dbh.Close();
 
             Debug.WriteLine("Initiate AddFriend()\n Added: (" + account.id + ", " + id + ").");
+        }
+        //Deletes a users ids from the friends list table
+        public void DeleteFreind(int id)
+        {
+            dbh.Open();
+            string query = "DELETE FROM friend WHERE id1 = @id1 AND id2 = @id2";
+            MySqlCommand cmd = new MySqlCommand(query, dbh);
+            cmd.Parameters.AddWithValue("@id1", account.id);
+            cmd.Parameters.AddWithValue("@id2", id);
+            cmd.ExecuteNonQuery();
+            dbh.Close();
+
+            Debug.WriteLine("Deleted (" + account.id + ", " + id + ") from the freindlist table. (" + GetUsername(id) + ")");
         }
         //Returns the id of the user that the client is looking for.
         public int GetId(string username)

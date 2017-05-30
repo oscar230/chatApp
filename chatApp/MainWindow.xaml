@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:chatApp"
         mc:Ignorable="d"
-        Title="ChatApp" Height="501.4" Width="421.4" BorderThickness="0" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="closing">
-    <Grid>
+        Title="ChatApp" Height="501.4" Width="430.2" BorderThickness="0" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="closing">
+    <Grid Margin="0,0,4.2,0">
         <!-- Menu buttons -->
-        <Button Content="Group" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click"/>
-        <Button Content="Chat" HorizontalAlignment="Left" Margin="143,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click_1"/>
-        <Button Content="Users" HorizontalAlignment="Left" Margin="276,10,0,0" VerticalAlignment="Top" Width="128" Height="32" Click="Button_Click_2"/>
+        <Button Content="Chat" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="182" Height="32" Click="Button_Click_1"/>
+        <Button Content="Users" HorizontalAlignment="Left" Margin="223,10,0,0" VerticalAlignment="Top" Width="182" Height="32" Click="Button_Click_2"/>
         <!-- motd canvas -->
         <Canvas x:Name="motd_group" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
             <Label Content="Welcome to chatapp" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" Canvas.Left="79" Canvas.Top="94"/>
@@ -31,40 +30,25 @@
                 <Button x:Name="logoutButton" Content="Logout" Canvas.Left="10" Canvas.Top="36" Width="75" Click="logoutButton_Click"/>
             </Canvas>
         </Canvas>
-        <!-- Group canvas -->
-        <Canvas x:Name="canvas_group" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
-            <!-- Navigation -->
-            <Button Content="Up" Canvas.Left="170" Canvas.Top="10" Width="53" Height="32" RenderTransformOrigin="0.56,0.4" HorizontalContentAlignment="Center"/>
-            <Button Content="Down" Canvas.Left="170" Canvas.Top="232" Width="53" Height="32" RenderTransformOrigin="0.56,0.4" HorizontalContentAlignment="Center"/>
-            <!-- Groups -->
-            <Button Content="1" Canvas.Left="10" Canvas.Top="47" Width="374" Height="32" RenderTransformOrigin="0.56,0.4"/>
-            <Button Content="2" Canvas.Left="10" Canvas.Top="84" Width="374" Height="32" RenderTransformOrigin="0.56,0.4"/>
-            <Button Content="3" Canvas.Left="10" Canvas.Top="121" Width="374" Height="32" RenderTransformOrigin="0.56,0.4"/>
-            <Button Content="4" Canvas.Left="10" Canvas.Top="158" Width="374" Height="32" RenderTransformOrigin="0.56,0.4"/>
-            <Button Content="5" Canvas.Left="10" Canvas.Top="195" Width="374" Height="32" RenderTransformOrigin="0.56,0.4"/>
-        </Canvas>
         <!-- Chat canvas -->
-        <Canvas x:Name="canvas_chat" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
-            <Button Content="Send" Canvas.Left="309" Canvas.Top="382" Width="75" Height="23" RenderTransformOrigin="0.56,0.4"/>
-            <TextBox Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="TextBox" Canvas.Top="382" Width="294"/>
-            <RichTextBox x:Name="chatHistory" Height="337" Canvas.Left="10" Canvas.Top="40" Width="374">
-                <FlowDocument>
-                    <Paragraph>
-                        <Run Text=""/>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-            <Label Content="In a chat with the group: " Canvas.Left="10" Canvas.Top="10" Width="374"/>
+        <Canvas x:Name="canvas_chat" Visibility="Visible" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
+            <Button Content="Send" Canvas.Left="309" Canvas.Top="382" Width="75" Height="23" RenderTransformOrigin="0.56,0.4" Click="Button_Click"/>
+            <TextBox x:Name="chatCurrent" Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="" Canvas.Top="382" Width="294"/>
+
+            <Label Content="In a chat with: " Canvas.Left="10" Canvas.Top="10" Width="85"/>
+            <ListBox x:Name="chatListBox" Height="343" Canvas.Left="10" Canvas.Top="35" Width="374"/>
+            <Label x:Name="chatName" Content="none" Canvas.Left="86" Canvas.Top="10" Width="140" FontWeight="Bold"/>
         </Canvas>
         <!-- Userlist canvas -->
-        <Canvas x:Name="canvas_userlist" Visibility="Visible" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
+        <Canvas x:Name="canvas_userlist" Visibility="Hidden" HorizontalAlignment="Left" Height="415" Margin="10,47,0,0" VerticalAlignment="Top" Width="394">
             <Button x:Name="userlistAddFriend" Content="Add" Canvas.Left="10" Canvas.Top="352" Width="170" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistAddFriend_Click"/>
             <Label Content="Total list of all users." Canvas.Left="10" Canvas.Top="10" Width="170"/>
             <ListBox x:Name="userListBox" Height="312" Canvas.Left="10" Canvas.Top="35" Width="170"/>
             <ListBox x:Name="friendListBox" Height="312" Canvas.Left="214" Canvas.Top="35" Width="170"/>
-            <Button x:Name="userlistDeleteFriend" Content="Delete" Canvas.Left="214" Canvas.Top="352" Width="105" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistDeleteFriend_Click"/>
+            <Button x:Name="userlistDeleteFriend" Content="Delete" Canvas.Left="214" Canvas.Top="352" Width="46" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistDeleteFriend_Click"/>
             <Label Content="List of users which are friends." Canvas.Left="214" Canvas.Top="10" Width="170"/>
-            <Button x:Name="userlistReload" Content="Reload" Canvas.Left="324" Canvas.Top="352" Width="60" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistReload_Click"/>
+            <Button x:Name="userlistReload" Content="Reload" Canvas.Left="266" Canvas.Top="352" Width="46" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistReload_Click"/>
+            <Button x:Name="userlistStart" Content="Start chat" Canvas.Left="317" Canvas.Top="352" Width="67" Height="23" RenderTransformOrigin="0.56,0.4" Click="userlistStart_Click"/>
         </Canvas>
     </Grid>
 </Window>
