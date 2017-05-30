@@ -195,7 +195,7 @@ namespace chatApp
             Debug.WriteLine("Starting a chat with: " + friendListBox.SelectedItem.ToString());
             chatName.Content = friendListBox.SelectedItem.ToString();
 
-            chat = new Chat(account, user.GetId(friendListBox.SelectedItem.ToString()));
+            chat = new Chat(account, user, user.GetId(friendListBox.SelectedItem.ToString()));
 
             ChatListReload();
         }
