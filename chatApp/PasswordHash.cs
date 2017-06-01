@@ -12,7 +12,7 @@ namespace chatApp
     {
         public string HashItteration(string input)
         {
-            int itterations = 1000; //Amount of hashing itterations for the password authentication.
+            int itterations = 5000; //Amount of hashing itterations for the password authentication.
             string output = input; //The final hash output.
 
             Debug.WriteLine("Input: " + input);
