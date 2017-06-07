@@ -8,8 +8,16 @@ using System.Diagnostics; //Debug
 
 namespace chatApp
 {
+    /// <summary>
+    /// A class that performs hashing on a string.
+    /// </summary>
     class PasswordHash
     {
+        /// <summary>
+        /// Performs the hash() function on a string a number of times.
+        /// </summary>
+        /// <param name="input">The cleartext input</param>
+        /// <returns>The hashed input is returned.</returns>
         public string HashItteration(string input)
         {
             int itterations = 5000; //Amount of hashing itterations for the password authentication.
@@ -25,6 +33,11 @@ namespace chatApp
             return output; //Returns the last hashsum after all of the itterations.
         }
 
+        /// <summary>
+        /// The primirary method which does the hashing. This breaks up the input string into peices in a char array and then does a sha1 hash.
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <returns>Return string with hashsum</returns>
         private string Hash(string input)
         {
             //Create sha1 object
