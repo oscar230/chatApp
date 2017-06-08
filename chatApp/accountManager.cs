@@ -10,9 +10,18 @@ using System.Diagnostics; //Debug
 
 namespace chatApp
 {
+    /// <summary>
+    /// This class mangaes the account that i currently in use.
+    /// When the user in logged in an object of this class is created and the constructor assigns the declared variables in this class.
+    /// These variables are then used to identify the logged in user.
+    /// Technically objects from this class can be created an infite number of times, meaning that multiple users can be active at once. Altough this program is not design for multiple user interactions.
+    /// </summary>
     class AccountManager
     {
-        //Creates connection with MySql server
+        /// <summary>
+        /// Creates connection with MySql server.
+        /// This static function is used by other classes.
+        /// </summary>
         public static MySqlConnection dbh = new MySqlConnection(@"
                     server=oscarandersson.tk;
                     userid=oscarander_app;
@@ -38,16 +47,23 @@ namespace chatApp
             return (this.active.ToString());
         }
 
-        //Authenticates the user and commits a login if succesfull.
+        /// <summary>
+        /// Authenticates the user and commits a login if succesfull.
+        /// </summary>
+        /// <param name="inputUsername">The username that is inputed by ther user in the GUI.</param>
+        /// <param name="inputPassword">The password -||-.</param>
+        /// <returns>Returns true if the user is sucessfully authenticated. This is only used for the GUI to clear its login input fields.</returns>
         public bool Login(string inputUsername, string inputPassword)
         {
             //If the user exist in the database
             if (usernameCheck(inputUsername))
             {
+                //Calls the setId function
                 setId(inputUsername);
                 Debug.WriteLine("Id set");
                 this.username = inputUsername;
                 Debug.WriteLine("username is valid : " + this.username + " : id : " + this.id);
+                //Valid password check
                 if (passwordCheck(inputPassword))
                 {
                     Debug.WriteLine("Password is valid");
@@ -74,13 +90,18 @@ namespace chatApp
             }
         }
 
-        //Loging out
+        /// <summary>
+        /// Strips the class of its variables wich renders the user as inactive and logged out. The class (object) can now be overwritten, just left alone or simply destroyed.
+        /// TODO: Create a destructor that haldes this and deletes the object.
+        /// </summary>
+        /// <returns>If the logout was sucessfull true is returned</returns>
         public bool Logout()
         {
             setOnline(false);
             this.username = null;
             this.id = 0;
-            if (this.id == 0)
+            this.active = false;
+            if (this.active == false)
             {
                 return true;
             }
