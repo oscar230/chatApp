@@ -108,9 +108,16 @@ namespace chatApp
             return false;
         }
 
-        //Creates an user account.
+        /// <summary>
+        /// Creates an user account.
+        /// Sends the new user information to the databse once the username check is complete.
+        /// </summary>
+        /// <param name="inputUsername"></param>
+        /// <param name="inputPassword"></param>
+        /// <returns></returns>
         public bool Reg(string inputUsername, string inputPassword)
         {
+            //The username needs to be checked. If the username already exists then the user account wont be added to the databse.
             if (usernameCheck(inputUsername) == true)
             {
                 Debug.WriteLine("Username already exists in database.");
@@ -118,6 +125,7 @@ namespace chatApp
             }
             else
             {
+                //Hashes the password. The hashsum is then added to the database. The cleartext password is from now on nowhere to be seen.
                 PasswordHash hasher = new PasswordHash();
                 string hash = hasher.HashItteration(inputPassword);
 
