@@ -9,6 +9,10 @@ using System.Diagnostics; //Debug
 
 namespace chatApp
 {
+    /// <summary>
+    /// The Chat class contains the chat system foundation.
+    /// The Chat class is used to get messages from the database and to send messages to the database.
+    /// </summary>
     class Chat
     {
         //Objects
@@ -19,7 +23,13 @@ namespace chatApp
         //Variables
         int id = 0; //The id of the user who the chat instance is initiated with.
 
-        //Constructor
+        /// <summary>
+        /// Constructor
+        /// An object is created from this class when a chat is initiated between the client and a remote user.
+        /// </summary>
+        /// <param name="account">The object containing information about the current client user.</param>
+        /// <param name="user">The object contains necesary methods.</param>
+        /// <param name="id">This is the user id of the remote user who the chat is to be initiated with.</param>
         public Chat(AccountManager account, User user, int id)
         {
             this.account = account;
@@ -27,7 +37,11 @@ namespace chatApp
             this.id = id;
         }
 
-        public List<string> GetChat() //Retreives the chat history from the database
+        /// <summary>
+        /// Retreives the chat history from the database
+        /// </summary>
+        /// <returns>A list containing the whole chat history between the two chat partisipants.</returns>
+        public List<string> GetChat()
         {
             dbh.Open();
             string query = @"SELECT value, id1 FROM chat WHERE (id1 = @id1 AND id2 = @id2) OR (id1 = @id2 AND id2 = @id1) ORDER BY datetime ASC";
@@ -40,11 +54,13 @@ namespace chatApp
             data.Load(chat);
             dbh.Close();
 
+            //Itterates trough the chat history and if the client user id is the same as the messages user id the message is treated like a message coming from the client user.
             List<string> chatHistory = new List<string>();
             foreach (DataRow row in data.Rows)
             {
                 Debug.WriteLine("chatHistory: " + row["value"].ToString());
 
+                //Displays the username before the message.
                 if (row["id1"].ToString() == Convert.ToString(account.id))
                 {
                     chatHistory.Add(user.GetUsername(account.id) + " : " + row["value"].ToString());
@@ -57,6 +73,11 @@ namespace chatApp
             return chatHistory;
         }
 
+        /// <summary>
+        /// Sends messages from the client to the database.
+        /// The sent packet contains the message string, the tranceiver id and the reciever id.
+        /// </summary>
+        /// <param name="input">The message string.</param>
         public void Send(string input)
         {
             dbh.Open();

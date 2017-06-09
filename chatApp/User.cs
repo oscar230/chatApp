@@ -9,19 +9,27 @@ using System.Diagnostics; //Debug
 
 namespace chatApp
 {
+    /// <summary>
+    /// Handles the userlist and the interaction between the client user and other users.
+    /// </summary>
     class User
     {
+        //Objects
         AccountManager account; //Initates a empty account obejct.
         MySqlConnection dbh = AccountManager.dbh; //Initiates the database handler object.
 
         public List<string> userList { get; private set; } //A list of all users using their username.
 
-        //Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="account">The account manager object is needed to represent the client user.</param>
         public User(AccountManager account)
         {
             this.account = account;
+            //Gets a userlist from the database.
             dbh.Open();
-            string query = @"SELECT id, username FROM user";
+            string query = @"SELECT id, username FROM user"; //TODO dont get the current user.
             MySqlCommand cmd = new MySqlCommand(query, dbh);
             MySqlDataReader usernameGet;
             usernameGet = cmd.ExecuteReader();
@@ -31,6 +39,7 @@ namespace chatApp
             
             userList = new List<string>();
 
+            //Fills the userList List with the usernames from the database.
             foreach (DataRow user in data.Rows)
             {
                 Debug.WriteLine("Added " + user["id"].ToString() + " - " + user["username"].ToString() + " to the userList.");
@@ -38,7 +47,11 @@ namespace chatApp
             }
             dbh.Close();
         }
-        //Gets the list of all friends for a specifik user (the user who is logged in)
+
+        /// <summary>
+        /// Gets the list of all friends for a specifik user (the user who is logged in)
+        /// </summary>
+        /// <returns>Returns a list of strings with usernames of all friends.</returns>
         public List<string> GetFriends()
         {
             Debug.WriteLine("Active user id: " + Convert.ToString(account.id));
@@ -65,7 +78,11 @@ namespace chatApp
             
             return friends;
         }
-        //Adds a users ids to the friends list table
+
+        /// <summary>
+        /// Adds a users ids to the friends list table.
+        /// </summary>
+        /// <param name="id">The user id of the friends to add.</param>
         public void AddFreind(int id)
         {
             List<string> friends = GetFriends();
@@ -88,7 +105,11 @@ namespace chatApp
 
             Debug.WriteLine("Initiate AddFriend()\n Added: (" + account.id + ", " + id + ").");
         }
-        //Deletes a users ids from the friends list table
+
+        /// <summary>
+        /// Deletes a users ids from the friends list table
+        /// </summary>
+        /// <param name="id">The user id to delete from the friend list.</param>
         public void DeleteFreind(int id)
         {
             dbh.Open();
@@ -101,7 +122,13 @@ namespace chatApp
 
             Debug.WriteLine("Deleted (" + account.id + ", " + id + ") from the freindlist table. (" + GetUsername(id) + ")");
         }
-        //Returns the id of the user that the client is looking for.
+
+        /// <summary>
+        /// Returns the id of the user that the client is looking for.
+        /// Searches the database for the id of the username that matches the input.
+        /// </summary>
+        /// <param name="username">The input string.</param>
+        /// <returns>int user id</returns>
         public int GetId(string username)
         {
             dbh.Close();
@@ -127,6 +154,13 @@ namespace chatApp
             dbh.Close();
             return id;
         }
+
+        /// <summary>
+        /// Returns the username of the user that the client is looking for.
+        /// Searches the database for the username of the user id that matches the input.
+        /// </summary>
+        /// <param name="id">The input user id</param>
+        /// <returns>string username</returns>
         public string GetUsername(int id)
         {
             dbh.Close();
@@ -154,7 +188,13 @@ namespace chatApp
             dbh.Close();
             return username;
         }
-        //Returns the state of the user (true online, false offline).
+
+        /// <summary>
+        /// Returns the state of the user (true online, false offline).
+        /// This class isnt curently in use, but is later to be used in the GUI to display which users are avaliable.
+        /// </summary>
+        /// <param name="id">The user id of the user of which state is requested.</param>
+        /// <returns>Boolean. True = online, False = offline.</returns>
         public bool GetOnlineState(int id)
         {
             dbh.Open();

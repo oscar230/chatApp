@@ -141,7 +141,10 @@ namespace chatApp
             }      
         }
 
-        //Gets and sets the user id for a specific user and sets the class variable this.id.
+        /// <summary>
+        /// Gets and sets the user id for a specific user and sets the class variable this.id.
+        /// </summary>
+        /// <param name="username">Assigns the class user id to the one from the database.</param>
         private void setId(string username)
         {
             string query = "SELECT id FROM user WHERE username = @username";
@@ -157,7 +160,11 @@ namespace chatApp
             dbh.Close();
         }
 
-        //Updates the online status the logged in user.
+        /// <summary>
+        /// Updates the online status the logged in user.
+        /// The online status is located in the database and idicates if the user is avaliable.
+        /// </summary>
+        /// <param name="online">A boolean value. True represents that the player online state is to be set to true.</param>
         private void setOnline(bool online)
         {
             string query = "UPDATE user SET online = @online WHERE id = @id";
@@ -176,7 +183,12 @@ namespace chatApp
             dbh.Close();
         }
 
-        //Checks if the user exists and assigns this.id with an integer. This is essential for loging in.
+        /// <summary>
+        /// Checks if the user exists and assigns this.id with an integer.
+        /// This is essential for loging in.
+        /// </summary>
+        /// <param name="username">String of the username that is to be checked.</param>
+        /// <returns>Boolean value. If the username is present in the database then it returns true.</returns>
         private bool usernameCheck(string username)
         {
             dbh.Open();
@@ -209,7 +221,12 @@ namespace chatApp
             return false;
         }
 
-        //Checks if the password hash exists
+        /// <summary>
+        /// Checks if the password hash exists. This is a comparison between the client password and the server hash.
+        /// Performs a hash with the passwordHash.cs class.
+        /// </summary>
+        /// <param name="password">the rawtext password.</param>
+        /// <returns>boolean value. if true then the passwordCheck was successfull.</returns>
         private bool passwordCheck(string password)
         {
             //If the user id is valid.
